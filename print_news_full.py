@@ -2,7 +2,7 @@ import feedparser
 import requests
 import datetime
 
-# Microsoft Teams Webhook URL（あなたのURLを使用）
+# Microsoft Teams Webhook URL
 TEAMS_WEBHOOK_URL = "https://prod-63.japaneast.logic.azure.com:443/workflows/bfdd5d1685c74b049bf9aa93d6999fcc/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IQ-72ieqeQZSLi3yvnfx3ukfmZqrg2K4jIhX0Kd4_zM"
 
 # RSSフィード一覧
@@ -25,7 +25,7 @@ def evaluate_score(text, keywords):
 def format_stars(score):
     return "★" * score + "☆" * (5 - score)
 
-# Copilot風要約生成（300文字以内）
+# 要約生成（300文字以内）
 def generate_summary(title, summary):
     content = title + " " + summary
     sentences = content.replace("。", ".").split(".")
@@ -33,7 +33,7 @@ def generate_summary(title, summary):
     result = "。".join(filtered) + "。" if filtered else summary
     return result[:300]
 
-# Teams通知関数
+# Teams通知関数（まとめて送信）
 def send_to_teams(message):
     headers = {"Content-Type": "application/json"}
     payload = {"text": message}
@@ -76,13 +76,14 @@ for source_name, feed_url in RSS_FEEDS.items():
                 f"⭐ AccurioDX関連度: {format_stars(accurio_score)}\n"
                 f"🛰 情報源: {source_name}\n"
                 f"📝 要約: {copilot_summary}\n"
+                f"\n---\n"
             )
             messages.append(message)
 
-# Teamsに送信
+# まとめて送信
 if messages:
-    for msg in messages:
-        send_to_teams(msg)
+    full_message = f"🗞️ 本日の印刷業界ニュース（{today.strftime('%Y-%m-%d')}）\n\n" + "\n".join(messages)
+    send_to_teams(full_message)
 else:
     send_to_teams("本日公開された印刷関連の新着ニュースはありません。")
 
