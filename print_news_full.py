@@ -6,8 +6,31 @@ import datetime
 TEAMS_WEBHOOK_URL = "https://prod-63.japaneast.logic.azure.com:443/workflows/bfdd5d1685c74b049bf9aa93d6999fcc/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IQ-72ieqeQZSLi3yvnfx3ukfmZqrg2K4jIhX0Kd4_zM"
 
 RSS_FEEDS = {
-    "PR TIMES 印刷": "https://prtimes.jp/topics/rss/keywords/印刷",
-    "Konica Minolta": "https://www.konicaminolta.com/jp-ja/news/rss/news_release.rss"
+    # INNOVATION_KEYWORDS 関連
+    "TechCrunch Japan": "https://jp.techcrunch.com/feed/",
+    "ZDNet Japan": "https://japan.zdnet.com/rss/index.rdf",
+    "ITmedia NEWS": "https://rss.itmedia.co.jp/rss/2.0/news_bursts.xml",
+    "日経クロステック": "https://xtech.nikkei.com/rss/xt/rss.xml",
+    "CNET Japan": "https://japan.cnet.com/rss/index.rdf",
+    "GIGAZINE": "https://gigazine.net/news/rss_2.0/",
+    "Publickey": "https://www.publickey1.jp/atom.xml",
+    "Impress Watch": "https://www.watch.impress.co.jp/rss/",
+
+    # PROMOTION_KEYWORDS 関連
+    "宣伝会議": "https://www.sendenkaigi.com/rss/index.xml",
+    "AdverTimes": "https://www.advertimes.com/feed/",
+    "印刷タイムス": "https://insatsutimes.com/feed",
+    "日本印刷新聞": "https://nichiin.co.jp/feed",
+    "JAGAT": "https://www.jagat.or.jp/feed",
+    "販促会議": "https://mag.sendenkaigi.com/hansoku/rss",
+
+    # ACCURIO_KEYWORDS 関連
+    "Konica Minolta Global": "https://www.konicaminolta.com/news/rss/news.xml",
+    "Konica Minolta Europe": "https://www.konicaminolta.eu/eu-en/rss/news",
+    "WhatTheyThink": "https://whattheythink.com/rss/",
+    "PrintWeek": "https://www.printweek.com/rss/news",
+    "Ink World Magazine": "https://www.inkworldmagazine.com/rss/news.xml",
+    "Labels & Labeling": "https://www.labelsandlabeling.com/rss.xml"
 }
 
 INNOVATION_KEYWORDS = ["革新", "新技術", "AI", "自動化", "スマート", "DX", "デジタル", "IoT", "クラウド"]
