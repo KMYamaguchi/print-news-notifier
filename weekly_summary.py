@@ -10,6 +10,7 @@ RSS_FEEDS = {
     "Konica Minolta": "https://www.konicaminolta.com/jp-ja/news/rss/news_release.rss"
 }
 
+
 INNOVATION_KEYWORDS = ["革新", "新技術", "AI", "自動化", "スマート", "DX", "デジタル", "IoT", "クラウド"]
 PROMOTION_KEYWORDS = ["販促", "チラシ", "紙媒体", "印刷物", "POP", "DM", "パーソナライズ", "プロモーション"]
 ACCURIO_KEYWORDS = ["Accurio", "Konica Minolta", "デジタル印刷", "プロダクションプリント", "印刷機", "印刷ソリューション"]
@@ -22,6 +23,7 @@ def send_to_teams(message):
     payload = {"text": message}
     response = requests.post(TEAMS_WEBHOOK_URL, json=payload, headers=headers)
     return response.status_code == 200
+
 today = datetime.datetime.now().date()
 week_ago = today - datetime.timedelta(days=7)
 
@@ -53,12 +55,37 @@ for source_name, feed_url in RSS_FEEDS.items():
             keyword_counter.update([k for k in INNOVATION_KEYWORDS + PROMOTION_KEYWORDS + ACCURIO_KEYWORDS if k in content])
             source_counter[source_name] += 1
 
-top_entries = sorted(entries, key=lambda x: (x[2] + x[3] + x[4]), reverse=True)[:5]
+# メッセージ構築（Markdown形式）
+message_lines = [
+    f"🗓️ 週次印刷業界ニュースまとめ（{week_ago}〜{today}）",
+    "",
+    "📰 トップニュース:"
+]
 
-message = f"🗓️ 週次印刷業界ニュースまとめ（{week_ago}〜{today}）\n\n"
-message += "📰 トップニュース:\n" + "\n".join([f"- {e[0]} ({e[1]})" for e in top_entries]) + "\n\n"
-message += "📊 キーワード出現ランキング:\n" + "\n".join([f"- {k}: {v}件" for k, v in keyword_counter.most_common(5)]) + "\n\n"
-message += "🏢 件数の多かった情報源:\n" + "\n".join([f"- {s}: {c}件" for s, c in source_counter.most_common()])
+if entries:
+    top_entries = sorted(entries, key=lambda x: (x[2] + x[3] + x[4]), reverse=True)[:5]
+    for e in top_entries:
+        message_lines.append(f"- {e[0]} ({e[1]})")
+else:
+    message_lines.append("- 該当するニュースはありません。")
 
-send_to_teams(message)
+message_lines.append("")
+message_lines.append("📊 キーワード出現ランキング:")
+if keyword_counter:
+    for k, v in keyword_counter.most_common(5):
+        message_lines.append(f"- {k}: {v}件")
+else:
+    message_lines.append("- 該当なし")
+
+message_lines.append("")
+message_lines.append("🏢 件数の多かった情報源:")
+if source_counter:
+    for s, c in source_counter.items():
+        message_lines.append(f"- {s}: {c}件")
+else:
+    message_lines.append("- 該当なし")
+
+# 改行を含むメッセージを送信
+final_message = "\n".join(message_lines)
+send_to_teams(final_message)
 print("週次要約通知が完了しました。")
