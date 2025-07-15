@@ -2,7 +2,7 @@ import feedparser
 import requests
 import datetime
 
-TEAMS_WEBHOOK_URL = "https://prod-63.japaneast.logic.azure.com:443/workflows/..."  # あなたのTeams Webhook URL
+TEAMS_WEBHOOK_URL = "https://prod-63.japaneast.logic.azure.com:443/workflows/bfdd5d1685c74b049bf9aa93d6999fcc/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IQ-72ieqeQZSLi3yvnfx3ukfmZqrg2K4jIhX0Kd4_zM"  # あなたのTeams Webhook URL
 
 RSS_FEEDS = {
     "PR TIMES 印刷": "https://prtimes.jp/topics/rss/keywords/印刷",
