@@ -1,9 +1,9 @@
 name: News Notifier
 
 on:
-  schedule:
-    - cron: '0 23 * * 1-5' # 月〜金曜 8:00 JST（UTC 23:00）
-    - cron: '0 23 * * 3'   # 水曜 8:00 JST（週次通知）
+  #  schedule:
+  #  - cron: '0 23 * * 1-5' # 月〜金曜 8:00 JST（UTC 23:00）
+  #  - cron: '0 23 * * 3'   # 水曜 8:00 JST（週次通知）
   workflow_dispatch:
 
 jobs:
