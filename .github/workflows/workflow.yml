@@ -2,8 +2,8 @@ name: News Notifier
 
 on:
   schedule:
-    - cron: '0 23 * * 1-5'  # 月〜金曜 8:00 JST（UTC 23:00）
-    - cron: '0 23 * * 3'    # 水曜 8:00 JST（週次通知）
+    - cron: '0 23 * * 1-5' # 月〜金曜 8:00 JST（UTC 23:00）
+    - cron: '0 23 * * 3'   # 水曜 8:00 JST（週次通知）
   workflow_dispatch:
 
 jobs:
@@ -12,14 +12,17 @@ jobs:
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v3
+
       - name: Python 3.11 をセットアップ
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
       - name: 必要なライブラリをインストール
         run: |
           python -m pip install --upgrade pip
           pip install feedparser requests
+
       - name: 毎日ニュース通知スクリプトを実行
         run: python print_news_full.py
 
@@ -28,7 +31,16 @@ jobs:
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v3
+
       - name: Python 3.11 をセットアップ
         uses: actions/setup-python@v4
         with:
-          python-version
+          python-version: '3.11'
+
+      - name: 必要なライブラリをインストール
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser requests
+
+      - name: 週次要約スクリプトを実行
+        run: python weekly_summary.py
